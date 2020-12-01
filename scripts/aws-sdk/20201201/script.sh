@@ -10,7 +10,7 @@ MASON_LIB_FILE=bin/wget
 function mason_load_source {
     mason_download \
         https://github.com/aws/aws-sdk-cpp/archive/${GITSHA}.tar.gz \
-        7b73b3f47ac83a6c2131c72a2cd2902dc06220d2
+        5eb7ac8f059e5f92950a742ef50b6b0f6c993938
 
     mason_extract_tar_gz
 

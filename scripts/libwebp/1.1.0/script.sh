@@ -9,7 +9,7 @@ MASON_LIB_FILE=bin/wget
 function mason_load_source {
     mason_download \
         https://github.com/webmproject/libwebp/archive/v${MASON_VERSION}.tar.gz \
-        da93fd4f595f9a995572af3976aed1349543900c
+        6331cb7c45f5e5c2c1473c27590c4b448a099674
 
     mason_extract_tar_gz
 

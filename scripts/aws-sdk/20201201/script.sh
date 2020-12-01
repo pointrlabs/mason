@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 
-MASON_NAME=aws-sdk
+MASON_NAME=aws-sdk-cpp
 MASON_VERSION=20201201
 GITSHA=236f75622b400bf444f7302a6222bfb353bac766
 MASON_LIB_FILE=bin/wget
@@ -14,7 +14,7 @@ function mason_load_source {
 
     mason_extract_tar_gz
 
-    export MASON_BUILD_PATH=${MASON_ROOT}/.build/${MASON_NAME}-${MASON_VERSION}
+    export MASON_BUILD_PATH=${MASON_ROOT}/.build/${MASON_NAME}-${GITSHA}
 }
 
 function mason_prepare_compile {

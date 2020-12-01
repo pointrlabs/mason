@@ -20,7 +20,6 @@ function mason_load_source {
 function mason_prepare_compile {
     CCACHE_VERSION=3.7.2
     CMAKE_VERSION=3.15.2
-    NINJA_VERSION=1.9.0
     LLVM_VERSION=10.0.0
     LIBCURL_VERSION=7.38.0-boringssl
     LIBZ_VERSION=1.2.8
@@ -30,8 +29,6 @@ function mason_prepare_compile {
     MASON_CCACHE=$(${MASON_DIR}/mason prefix ccache ${CCACHE_VERSION})
     ${MASON_DIR}/mason install cmake ${CMAKE_VERSION}
     MASON_CMAKE=$(${MASON_DIR}/mason prefix cmake ${CMAKE_VERSION})
-    ${MASON_DIR}/mason install ninja ${NINJA_VERSION}
-    MASON_NINJA=$(${MASON_DIR}/mason prefix ninja ${NINJA_VERSION})
     ${MASON_DIR}/mason install libcurl ${LIBCURL_VERSION}
     MASON_LIBCURL=$(${MASON_DIR}/mason prefix libcurl ${LIBCURL_VERSION})
     ${MASON_DIR}/mason install zlib ${LIBZ_VERSION}
@@ -42,7 +39,7 @@ function mason_compile {
     mkdir -p build
     cd build
 
-    ${MASON_CMAKE}/bin/cmake -G Ninja ../ \
+    ${MASON_CMAKE}/bin/cmake ../ \
         -DCMAKE_BUILD_TYPE=Release \
         -DCMAKE_INSTALL_PREFIX="${MASON_PREFIX}" \
         -DBUILD_SHARED_LIBS=OFF \
@@ -52,8 +49,8 @@ function mason_compile {
         -DCMAKE_CXX_COMPILER="${MASON_LLVM}/bin/clang++" \
         -DCMAKE_C_COMPILER="${MASON_LLVM}/bin/clang"
 
-    ${MASON_NINJA}/bin/ninja -v -j${MASON_CONCURRENCY}
-    ${MASON_NINJA}/bin/ninja -v install
+    VERBOSE=1 make -j${MASON_CONCURRENCY}
+    VERBOSE=1 make install
 }
 
 function mason_cflags {

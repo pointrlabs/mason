@@ -2,7 +2,7 @@
 
 MASON_NAME=libwebp
 MASON_VERSION=1.1.0
-MASON_LIB_FILE=bin/wget
+MASON_LIB_FILE=lib/libwebp.a
 
 . ${MASON_DIR}/mason.sh
 

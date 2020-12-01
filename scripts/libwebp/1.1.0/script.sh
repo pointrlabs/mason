@@ -31,7 +31,7 @@ function mason_prepare_compile {
     ${MASON_DIR}/mason install ninja ${NINJA_VERSION}
     MASON_NINJA=$(${MASON_DIR}/mason prefix ninja ${NINJA_VERSION})
     ${MASON_DIR}/mason install zlib ${LIBZ_VERSION}
-    MASON_NINJA=$(${MASON_DIR}/mason prefix zlib ${LIBZ_VERSION})
+    MASON_LIBZ=$(${MASON_DIR}/mason prefix zlib ${LIBZ_VERSION})
 }
 
 function mason_compile {
@@ -49,7 +49,7 @@ function mason_compile {
         -DWEBP_BUILD_WEBPINFO=OFF \
         -DWEBP_BUILD_WEBPMUX=OFF \
         -DWEBP_BUILD_EXTRAS=OFF \
-        -DCMAKE_INSTALL_PREFIX="${MASON_PREFIX}"
+        -DCMAKE_INSTALL_PREFIX="${MASON_PREFIX}" \
         -DCMAKE_C_COMPILER_LAUNCHER=${MASON_CCACHE}/bin/ccache \
         -DCMAKE_C_COMPILER="${MASON_LLVM}/bin/clang"
 

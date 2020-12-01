@@ -22,7 +22,7 @@ function mason_prepare_compile {
     CMAKE_VERSION=3.15.2
     NINJA_VERSION=1.9.0
     LLVM_VERSION=10.0.0
-    LIBCURL_VERSION=7.50.2
+    LIBCURL_VERSION=7.38.0-boringssl
     LIBZ_VERSION=1.2.8
     ${MASON_DIR}/mason install clang++ ${LLVM_VERSION}
     MASON_LLVM=$(${MASON_DIR}/mason prefix clang++ ${LLVM_VERSION})
@@ -44,7 +44,7 @@ function mason_compile {
 
     ${MASON_CMAKE}/bin/cmake -G Ninja ../ \
         -DCMAKE_BUILD_TYPE=Release \
-        -DCMAKE_INSTALL_PREFIX="${MASON_PREFIX}"
+        -DCMAKE_INSTALL_PREFIX="${MASON_PREFIX}" \
         -DBUILD_SHARED_LIBS=OFF \
         -DENABLE_TESTING=OFF \
         -DCMAKE_CXX_COMPILER_LAUNCHER=${MASON_CCACHE}/bin/ccache \

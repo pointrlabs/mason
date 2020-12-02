@@ -20,15 +20,12 @@ function mason_prepare_compile {
     CCACHE_VERSION=3.7.2
     CMAKE_VERSION=3.15.2
     LLVM_VERSION=10.0.0
-    LIBZ_VERSION=1.2.8
     ${MASON_DIR}/mason install clang++ ${LLVM_VERSION}
     MASON_LLVM=$(${MASON_DIR}/mason prefix clang++ ${LLVM_VERSION})
     ${MASON_DIR}/mason install ccache ${CCACHE_VERSION}
     MASON_CCACHE=$(${MASON_DIR}/mason prefix ccache ${CCACHE_VERSION})
     ${MASON_DIR}/mason install cmake ${CMAKE_VERSION}
     MASON_CMAKE=$(${MASON_DIR}/mason prefix cmake ${CMAKE_VERSION})
-    ${MASON_DIR}/mason install zlib ${LIBZ_VERSION}
-    MASON_LIBZ=$(${MASON_DIR}/mason prefix zlib ${LIBZ_VERSION})
 }
 
 function mason_compile {

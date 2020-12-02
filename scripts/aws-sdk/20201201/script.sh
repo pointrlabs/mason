@@ -21,18 +21,12 @@ function mason_prepare_compile {
     CCACHE_VERSION=3.7.2
     CMAKE_VERSION=3.15.2
     LLVM_VERSION=10.0.0
-    LIBCURL_VERSION=7.38.0-boringssl
-    LIBZ_VERSION=1.2.8
     ${MASON_DIR}/mason install clang++ ${LLVM_VERSION}
     MASON_LLVM=$(${MASON_DIR}/mason prefix clang++ ${LLVM_VERSION})
     ${MASON_DIR}/mason install ccache ${CCACHE_VERSION}
     MASON_CCACHE=$(${MASON_DIR}/mason prefix ccache ${CCACHE_VERSION})
     ${MASON_DIR}/mason install cmake ${CMAKE_VERSION}
     MASON_CMAKE=$(${MASON_DIR}/mason prefix cmake ${CMAKE_VERSION})
-    ${MASON_DIR}/mason install libcurl ${LIBCURL_VERSION}
-    MASON_LIBCURL=$(${MASON_DIR}/mason prefix libcurl ${LIBCURL_VERSION})
-    ${MASON_DIR}/mason install zlib ${LIBZ_VERSION}
-    MASON_LIBCURL=$(${MASON_DIR}/mason prefix zlib ${LIBZ_VERSION})
 }
 
 function mason_compile {
@@ -42,12 +36,12 @@ function mason_compile {
     ${MASON_CMAKE}/bin/cmake ../ \
         -DCMAKE_BUILD_TYPE=Release \
         -DCMAKE_INSTALL_PREFIX="${MASON_PREFIX}" \
-        -DBUILD_SHARED_LIBS=OFF \
-        -DENABLE_TESTING=OFF \
         -DCMAKE_CXX_COMPILER_LAUNCHER=${MASON_CCACHE}/bin/ccache \
         -DCMAKE_C_COMPILER_LAUNCHER=${MASON_CCACHE}/bin/ccache \
         -DCMAKE_CXX_COMPILER="${MASON_LLVM}/bin/clang++" \
-        -DCMAKE_C_COMPILER="${MASON_LLVM}/bin/clang"
+        -DCMAKE_C_COMPILER="${MASON_LLVM}/bin/clang" \
+        -DBUILD_SHARED_LIBS=OFF \
+        -DENABLE_TESTING=OFF
 
     VERBOSE=1 make -j${MASON_CONCURRENCY}
     VERBOSE=1 make install

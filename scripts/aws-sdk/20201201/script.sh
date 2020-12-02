@@ -36,6 +36,7 @@ function mason_compile {
     ${MASON_CMAKE}/bin/cmake ../ \
         -DCMAKE_BUILD_TYPE=Release \
         -DCMAKE_INSTALL_PREFIX="${MASON_PREFIX}" \
+        -DCMAKE_INSTALL_MESSAGE="NEVER" \
         -DCMAKE_CXX_COMPILER_LAUNCHER=${MASON_CCACHE}/bin/ccache \
         -DCMAKE_C_COMPILER_LAUNCHER=${MASON_CCACHE}/bin/ccache \
         -DCMAKE_CXX_COMPILER="${MASON_LLVM}/bin/clang++" \

@@ -3,7 +3,7 @@
 MASON_NAME=aws-sdk-cpp
 MASON_VERSION=20201201
 GITSHA=236f75622b400bf444f7302a6222bfb353bac766
-MASON_LIB_FILE=lib/libaws-app-sdk-core.a
+MASON_LIB_FILE=lib/libaws-cpp-sdk-core.a
 
 . ${MASON_DIR}/mason.sh
 

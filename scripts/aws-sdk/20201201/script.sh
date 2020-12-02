@@ -44,7 +44,7 @@ function mason_compile {
         -DENABLE_TESTING=OFF
 
     VERBOSE=1 make -j${MASON_CONCURRENCY}
-    VERBOSE=1 make install
+    make install
 }
 
 function mason_cflags {

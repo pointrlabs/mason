@@ -41,6 +41,7 @@ function mason_compile {
         -DCMAKE_C_COMPILER_LAUNCHER=${MASON_CCACHE}/bin/ccache \
         -DCMAKE_CXX_COMPILER="${MASON_LLVM}/bin/clang++" \
         -DCMAKE_C_COMPILER="${MASON_LLVM}/bin/clang" \
+        -DCMAKE_CXX_FLAGS="-mmacosx-version-min=10.13" \
         -DBUILD_SHARED_LIBS=OFF \
         -DENABLE_TESTING=OFF
 

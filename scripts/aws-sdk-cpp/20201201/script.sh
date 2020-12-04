@@ -33,8 +33,9 @@ function mason_compile {
     mkdir -p build
     cd build
 
+    CXXFLAGS="-stdlib=libc++"
     if [[ ${MASON_PLATFORM} = 'osx' ]]; then
-        CXXFLAGS="-mmacosx-version-min=10.13"
+        CXXFLAGS="${CXXFLAGS} -mmacosx-version-min=10.13"
     fi
     ${MASON_CMAKE}/bin/cmake ../ \
         -DCMAKE_BUILD_TYPE=Release \

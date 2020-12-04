@@ -54,7 +54,7 @@ function mason_cflags {
 }
 
 function mason_ldflags {
-    echo "-L${MASON_PREFIX}/lib -laws-cpp-sdk-core"
+    echo "-L${MASON_PREFIX}/lib -laws-cpp-sdk-core -laws-c-event-stream -laws-c-common -laws-checksums"
 }
 
 function mason_static_libs {

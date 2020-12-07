@@ -33,10 +33,12 @@ function mason_compile {
     mkdir -p build
     cd build
 
-    CXXFLAGS="-stdlib=libc++"
-    if [[ ${MASON_PLATFORM} = 'osx' ]]; then
-        CXXFLAGS="${CXXFLAGS} -mmacosx-version-min=10.13"
-    fi
+    # Take the C++ Standard OUT of CXXFLAGS (it is specified below).
+    CXXFLAGS=${CXXFLAGS//-std=c++11/}
+
+    CFLAGS=${CXXFLAGS//-mmacosx-version-min=10.8/-mmacosx-version-min=10.13}
+    CXXFLAGS=${CXXFLAGS//-mmacosx-version-min=10.8/-mmacosx-version-min=10.13}
+
     ${MASON_CMAKE}/bin/cmake ../ \
         -DCMAKE_BUILD_TYPE=Release \
         -DCMAKE_INSTALL_PREFIX="${MASON_PREFIX}" \
@@ -45,7 +47,9 @@ function mason_compile {
         -DCMAKE_C_COMPILER_LAUNCHER=${MASON_CCACHE}/bin/ccache \
         -DCMAKE_CXX_COMPILER="${MASON_LLVM}/bin/clang++" \
         -DCMAKE_C_COMPILER="${MASON_LLVM}/bin/clang" \
+        -DCMAKE_C_FLAGS="${CFLAGS}" \
         -DCMAKE_CXX_FLAGS="${CXXFLAGS}" \
+        -DCPP_STANDARD=17 \
         -DBUILD_SHARED_LIBS=OFF \
         -DENABLE_TESTING=OFF
 
@@ -62,7 +66,7 @@ function mason_ldflags {
 }
 
 function mason_static_libs {
-    :
+   echo "${MASON_PREFIX}/${MASON_LIB_FILE} ${MASON_PREFIX}/lib/libaws-c-event-stream.a ${MASON_PREFIX}/lib/libaws-c-common.a ${MASON_PREFIX}/lib/libaws-checksums.a"
 }
 
 function mason_clean {

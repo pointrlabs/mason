@@ -29,21 +29,36 @@ function mason_compile {
     if [[ ! -f ./b2 ]] ; then
         ./bootstrap.sh
     fi
-    ./b2 \
-        --with-${BOOST_LIBRARY} \
-        --prefix=${MASON_PREFIX} \
-        -j${MASON_CONCURRENCY} \
-        -d0 \
-        --ignore-site-config --user-config=user-config.jam \
-        architecture="${BOOST_ARCH}" \
-        toolset="${BOOST_TOOLSET}" \
-        link=static \
-        variant=release \
-        linkflags="${LDFLAGS:-" "}" \
-        cxxflags="${CXXFLAGS:-" "}" \
-        stage
-    mkdir -p $(dirname ${MASON_PREFIX}/${MASON_LIB_FILE})
-    mv stage/${MASON_LIB_FILE} ${MASON_PREFIX}/${MASON_LIB_FILE}
+
+    # Take the C++ Standard OUT of CXXFLAGS (it is specified below).
+    CXXFLAGS=${CXXFLAGS//-std=c++11/}
+    for std in $(echo ${BOOST_STANDARDS} | tr ',' ' '); do
+      ./b2 \
+          --with-${BOOST_LIBRARY} \
+          --prefix=${MASON_PREFIX} \
+          -j${MASON_CONCURRENCY} \
+          -d0 \
+          --ignore-site-config --user-config=user-config.jam \
+          architecture="${BOOST_ARCH}" \
+          toolset="${BOOST_TOOLSET}" \
+          cxxstd=${std} \
+          link=static \
+          variant=release \
+          linkflags="${LDFLAGS:-" "}" \
+          cxxflags="${CXXFLAGS:-" "}" \
+          stage
+      mkdir -p $(dirname ${MASON_PREFIX}/c++${std}/${MASON_LIB_FILE})
+      mv stage/${MASON_LIB_FILE} ${MASON_PREFIX}/c++${std}/${MASON_LIB_FILE}
+      if [ ${BOOST_DEFAULT_STANDARD} = ${std} ]; then
+        mkdir -p $(dirname ${MASON_PREFIX}/${MASON_LIB_FILE})
+        if [ $(dirname ${MASON_LIB_FILE}) = '.' ]; then
+          RELPATH=.
+        else
+          RELPATH=$(dirname ${MASON_LIB_FILE} | sed 's,[^/]*,..,g')
+        fi
+        ln -sf ${RELPATH}/c++${std}/${MASON_LIB_FILE} ${MASON_PREFIX}/${MASON_LIB_FILE}
+      fi
+    done
 }
 
 function mason_prefix {

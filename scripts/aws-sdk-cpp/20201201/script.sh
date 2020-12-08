@@ -38,6 +38,7 @@ function mason_compile {
 
     CFLAGS=${CXXFLAGS//-mmacosx-version-min=10.8/-mmacosx-version-min=10.13}
     CXXFLAGS=${CXXFLAGS//-mmacosx-version-min=10.8/-mmacosx-version-min=10.13}
+    CXXFLAGS="${CXXFLAGS} -stdlib=libc++" # Force use of libc++ (not libstdc++).
 
     ${MASON_CMAKE}/bin/cmake ../ \
         -DCMAKE_BUILD_TYPE=Release \
